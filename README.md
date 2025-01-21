@@ -4,6 +4,12 @@ A simple, modern JavaScript reverse-proxy that has no dependencies and only uses
 
 Also works for all major JS platforms. 
 
+## Set destination URL in environment
+
+```
+PROXY_URL=https://wherever.com
+```
+
 ## Node
 
 ```sh
@@ -11,10 +17,6 @@ node --env-file=.env node.js
 ```
 
 ## Bun
-
-```sh
-curl -fsSL https://bun.sh/install | bash
-```
 
 ```sh
 NODE_TLS_REJECT_UNAUTHORIZED=0 bun bun.js
@@ -26,3 +28,22 @@ TODO: make docs for this.
 
 Use `worker.js`
 
+## To run on a VPS and have it run forever
+
+Install [pm2](https://github.com/Unitech/pm2):
+
+```sh
+npm install -g pm2
+```
+
+Then start this with:
+
+```sh
+pm2 start node.js
+```
+
+To run it with bun:
+
+```sh
+pm2 start --interpreter ~/.bun/bin/bun bun.js
+```

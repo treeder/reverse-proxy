@@ -35,7 +35,7 @@ const server = http.createServer(async (req, res) => {
 
 })
 
-const PORT = process.env.PORT || 3000 // Port for the reverse proxy
+const PORT = process.env.PORT || 80 // Port for the reverse proxy
 server.listen(PORT, () => {
   console.log(`Reverse proxy listening on port ${PORT}`)
 })
