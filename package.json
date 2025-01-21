@@ -1,0 +1,12 @@
+{
+  "name": "reverse-proxy",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "reverse-proxy.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Travis Reeder",
+  "license": "MIT"
+}
