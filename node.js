@@ -5,23 +5,31 @@ import { proxyURL } from './url.js'
 
 const server = http.createServer(async (req, res) => {
   console.log(`Incoming request: ${req.method} ${req.url}`)
-
+  if (req.url.startsWith("/src:")) {
+    // for some reason, was getting some infinite loop, this stops it...
+    return
+  }
   try {
-
-    console.log("request.url:", req.url)
-    console.log(req.headers)
+    // console.log(req)
+    // console.log("request.url:", req.url)
+    // console.log(req.headers)
     let rurl = req.url
     if (!rurl.startsWith("https://")) {
-      rurl = proxyURL() + req.url
+      // need to add a host or new Request will fail
+      rurl = "https://localhost:8080" + req.url
     }
     console.log(rurl)
 
     // request.url = rurl
-    let preq = new Request(rurl, {
+    let ropts = {
       method: req.method,
       headers: req.headers,
-      body: req.body,
-    })
+      duplex: "half",
+    }
+    if (req.method == "POST") {
+      ropts.body = req
+    }
+    let preq = new Request(rurl, ropts)
 
     let r = await handleRequest(preq)
     console.log("R:", r.status, r)
@@ -29,8 +37,8 @@ const server = http.createServer(async (req, res) => {
     res.end(await r.text())
   } catch (e) {
     console.error(e)
-    res.writeHead(500, { 'Content-Type': 'text/plain' })
-    res.end('Internal Server Error')
+    res.writeHead(500, { 'Content-Type': 'application/json' })
+    res.end(JSON.stringify({ error: { message: 'Internal Server Error' } }))
   }
 
 })
