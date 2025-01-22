@@ -46,8 +46,8 @@ function stripHeaders(h) {
   // Headers to remove
   const headersToRemove = [
     'host',
-    'cookie',
-    'authorization',
+    // 'cookie',
+    // 'authorization',
     'x-forwarded-for',
     // Add other headers to remove here
   ]
