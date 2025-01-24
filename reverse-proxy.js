@@ -32,12 +32,15 @@ async function forwardRequest(req, pathWithSearch) {
   console.log("proxying to:", u)
   console.log("req:", originRequest)
   let r = await fetch(u, originRequest)
-  console.log("R:", r.status, r)
   if (!r.ok) {
     console.log(await r.text())
-    throw new Error(`Request failed with status ${r.status}`)
+    console.error(`Request failed with status ${r.status}`)
+    return r;
   }
-  return r
+  else{
+      console.log("R:", r.status, r)
+      return r
+  }
 }
 
 function stripHeaders(h) {
