@@ -10,6 +10,9 @@ export async function handleRequest(req) {
   const pathname = url.pathname
   const search = url.search
   const pathWithParams = pathname + search
+
+  // todo: check proxyKey query param OR x-proxy-key header if it's set in environment
+
   return await forwardRequest(req, pathWithParams)
 }
 
@@ -29,13 +32,13 @@ async function forwardRequest(req, pathWithSearch) {
   }
   let originRequest = new Request(u, ropts)
   // originRequest.headers.delete("cookie")
-  console.log("proxying to:", u)
-  console.log("req:", originRequest)
+  // console.log("proxying to:", u)
+  // console.log("req:", originRequest)
   let r = await fetch(u, originRequest)
-  console.log("R:", r.status, r)
+  // console.log("R:", r.status, r)
   if (!r.ok) {
-    console.log(await r.text())
-    throw new Error(`Request failed with status ${r.status}`)
+    console.error(`Request failed with status ${r.status}`)
+    return r
   }
   return r
 }
@@ -48,6 +51,8 @@ function stripHeaders(h) {
     'host',
     // 'cookie',
     // 'authorization',
+    'x-proxy-key',
+    'x-forward-to',
     'x-forwarded-for',
     // Add other headers to remove here
   ]

@@ -8,7 +8,14 @@ Also works for all major JS platforms.
 
 ```
 PROXY_URL=https://wherever.com
+PROXY_KEY=SOME_SECRET_STRING
 ```
+
+If you have the `PROXY_KEY` set (optional), then the request must include one of the following
+that matches:
+
+- `X-Proxy-Key` header
+- `proxyKey` query param
 
 ## Node
 
